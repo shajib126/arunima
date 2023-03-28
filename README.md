@@ -1,4 +1,4 @@
-Complete E-commerce App
+Complete Arunima App
 
 #after clone or download project file.
 #1. Open your code editor
