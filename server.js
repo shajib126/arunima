@@ -5,6 +5,7 @@ const connectDatabase = require('./config/database')
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const fileUpload = require("express-fileupload");
+const cloudinary = require('cloudinary')
 const path = require("path");
 
 const errorMiddleware = require("./middleware/error");
