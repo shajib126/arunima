@@ -1,8 +1,34 @@
-const app = require("./app");
-const cloudinary = require("cloudinary");
-const connectDatabase = require("./config/database");
-const path = require("path");
 const express = require("express");
+const app = express();
+const cors = require('cors')
+const cookieParser = require("cookie-parser");
+const bodyParser = require("body-parser");
+const fileUpload = require("express-fileupload");
+const path = require("path");
+
+const errorMiddleware = require("./middleware/error");
+
+if (process.env.NODE_ENV !== "PRODUCTION") {
+  require("dotenv").config({ path: "config/config.env" });
+}else{
+  require("dotenv").config({ path: "config/config.env" });
+}
+
+app.use(express.json());
+app.use(cors())
+app.use(cookieParser());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(fileUpload());
+
+const product = require("./routes/productRoute");
+const user = require("./routes/userRoute");
+const order = require("./routes/orderRoute");
+const payment = require("./routes/paymentRoute");
+
+app.use("/api/v1", product);
+app.use("/api/v1", user);
+app.use("/api/v1", order);
+app.use("/api/v1", payment);
 // Handling Uncaught Exception
 process.on("uncaughtException", (err) => {
   console.log(`Error: ${err.message}`);
@@ -10,10 +36,7 @@ process.on("uncaughtException", (err) => {
   process.exit(1);
 });
 
-// Config
-if (process.env.NODE_ENV !== "PRODUCTION") {
-  require("dotenv").config({ path: "backend/config/config.env" });
-}
+app.use(errorMiddleware);
 
 // Connecting to database
 connectDatabase();
