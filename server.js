@@ -31,12 +31,6 @@ app.use("/api/v1", product);
 app.use("/api/v1", user);
 app.use("/api/v1", order);
 app.use("/api/v1", payment);
-// Handling Uncaught Exception
-process.on("uncaughtException", (err) => {
-  console.log(`Error: ${err.message}`);
-  console.log(`Shutting down the server due to Uncaught Exception`);
-  process.exit(1);
-});
 
 app.use(errorMiddleware);
 
@@ -57,16 +51,7 @@ app.get("*",function(_,res){
   })
 })
 
-const server = app.listen(process.env.PORT, () => {
+app.listen(process.env.PORT, () => {
   console.log(`Server is working on http://localhost:${process.env.PORT}`);
 });
 
-// Unhandled Promise Rejection
-process.on("unhandledRejection", (err) => {
-  console.log(`Error: ${err.message}`);
-  console.log(`Shutting down the server due to Unhandled Promise Rejection`);
-
-  server.close(() => {
-    process.exit(1);
-  });
-});
