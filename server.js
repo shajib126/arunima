@@ -9,12 +9,8 @@ const path = require("path");
 const cloudinary = require('cloudinary')
 
 const errorMiddleware = require("./middleware/error");
+require("dotenv").config({ path: "config/config.env" });
 
-if (process.env.NODE_ENV !== "PRODUCTION") {
-  require("dotenv").config({ path: "config/config.env" });
-}else{
-  require("dotenv").config({ path: "config/config.env" });
-}
 
 app.use(express.json());
 app.use(cors())
